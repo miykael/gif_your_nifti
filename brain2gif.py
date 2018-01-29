@@ -18,7 +18,9 @@ def reshape_image(filename, size=1):
     a, b, c = data.shape
     x, y, z = (list(data.shape) - maximum) / -2
 
-    out_img[x:a + x, y:b + y, z:c + z] = data
+    out_img[int(x):a + int(x),
+            int(y):b + int(y),
+            int(z):c + int(z)] = data
 
     out_img /= out_img.max()
 
@@ -111,7 +113,7 @@ def write_gif_cmap(filename, size=1, fps=18, colormap='hot', filetype='gif'):
 if __name__ == '__main__':
 
     # How many frames per second
-    fps = 20
+    fps = 2
 
     # Shows the creation of a normal grayscale gif - based on T1 MNI template
     write_gif_normal('mni_icbm152_t1_tal_nlin_asym_09c.nii', 1, fps, 'gif')
