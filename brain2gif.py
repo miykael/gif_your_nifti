@@ -113,7 +113,7 @@ def write_gif_cmap(filename, size=1, fps=18, colormap='hot', filetype='gif'):
 if __name__ == '__main__':
 
     # How many frames per second
-    fps = 2
+    fps = 24
 
     # Shows the creation of a normal grayscale gif - based on T1 MNI template
     write_gif_normal('mni_icbm152_t1_tal_nlin_asym_09c.nii', 1, fps, 'gif')
