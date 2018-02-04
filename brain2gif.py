@@ -64,6 +64,28 @@ def create_mosaic_depth(out_img, maximum):
     return out_img
 
 
+def create_mosaic_RGB(out_img1, out_img2, out_img3, maximum):
+
+    # Load normal mosaic image
+    new_img1 = create_mosaic_normal(out_img1, maximum)
+    new_img2 = create_mosaic_normal(out_img2, maximum)
+    new_img3 = create_mosaic_normal(out_img3, maximum)
+
+    # Create RGB image (where red and blue mean a positive or negative shift
+    # in the direction of the depicted axis)
+    rgb_img = [[new_img1[i, ...], new_img2[i, ...], new_img3[i, ...]]
+               for i in range(maximum)]
+
+    # Make sure to have correct data shape
+    out_img = np.rollaxis(np.array(rgb_img), 1, 4)
+
+    # Add the 3 lost images at the end
+    out_img = np.vstack(
+        (out_img, np.zeros([3] + [o for o in out_img[-1].shape])))
+
+    return out_img
+
+
 def write_gif_normal(filename, size=1, fps=18, filetype='gif'):
 
     # Load NIfTI and put it in right shape
@@ -90,6 +112,25 @@ def write_gif_depth(filename, size=1, fps=18, filetype='gif'):
              new_img, format=filetype, fps=int(fps * size))
 
 
+def write_gif_rgb(filename1, filename2, filename3, size=1, fps=18,
+                  filetype='gif'):
+
+    # Load NIfTI and put it in right shape
+    out_img1, maximum1 = reshape_image(filename1, size)
+    out_img2, maximum2 = reshape_image(filename2, size)
+    out_img3, maximum3 = reshape_image(filename3, size)
+
+    if maximum1 == maximum2 and maximum1 == maximum3:
+        maximum = maximum1
+
+    # Create output mosaic
+    new_img = create_mosaic_RGB(out_img1, out_img2, out_img3, maximum)
+
+    # Write gif file
+    mimwrite(filename1.replace('.nii', '_rgb.%s' % filetype),
+             new_img, format=filetype, fps=int(fps * size))
+
+
 def write_gif_cmap(filename, size=1, fps=18, colormap='hot', filetype='gif'):
 
     # Load NIfTI and put it in right shape
@@ -113,7 +154,7 @@ def write_gif_cmap(filename, size=1, fps=18, colormap='hot', filetype='gif'):
 if __name__ == '__main__':
 
     # How many frames per second
-    fps = 24
+    fps = 20
 
     # Shows the creation of a normal grayscale gif - based on T1 MNI template
     write_gif_normal('mni_icbm152_t1_tal_nlin_asym_09c.nii', 1, fps, 'gif')
@@ -123,6 +164,13 @@ if __name__ == '__main__':
 
     # Shows the creation of a depth gif - based on the gray matter MNI template
     write_gif_depth('mni_icbm152_gm_tal_nlin_asym_09c.nii', 1, fps, 'gif')
+
+    # Shows the creation of a RGB gif - based on the gray matter, white matter
+    # and CSF MNI template
+    write_gif_rgb('mni_icbm152_gm_tal_nlin_asym_09c.nii',
+                  'mni_icbm152_wm_tal_nlin_asym_09c.nii',
+                  'mni_icbm152_csf_tal_nlin_asym_09c.nii',
+                  1, fps, 'gif')
 
     # Shows how to change the size of the gif on different colored GM templates
     write_gif_normal('mni_icbm152_gm_tal_nlin_asym_09c.nii', 0.5, fps, 'gif')

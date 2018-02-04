@@ -34,6 +34,15 @@ To create a depth gif, use `write_gif_depth(nifti_name, size, frames_per_second,
 Command: `write_gif_depth('mni_icbm152_gm_tal_nlin_asym_09c.nii', 1, 20, 'gif')` - The image shows you in color what the value of the next slice will be. If the color is slightly red or blue it means that the value on the next slide is brighter or darker, respectifely. It therefore encodes a certain kind of depth into the gif.
 
 
+## RGB GIF
+
+To create a RGB gif, use `write_gif_RGB(nifti_name1, nifti_name2, nifti_name3, size, frames_per_second, filetype)`:
+
+<img src="gifs/mni_icbm152_gm_tal_nlin_asym_09c_rgb.gif">
+
+Command: `write_gif_RGB(nifti_name1, nifti_name2, nifti_name3, size, frames_per_second, filetype)` - This image takes the values from the first NIfTI file as its red colors, the values of the second NIfTI file as its green colors and the values of its third NIfTI as its blue color code.
+
+
 ## Resize GIF
 
 It is also possible to change the size of a gif, by changing the `size` parameter in any function above. The following are examples of resizing the images to 50% of it's original size, with:
