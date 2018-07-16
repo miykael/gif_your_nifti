@@ -1,5 +1,12 @@
 # Gif your brain
 
+[![GitHub issues](https://img.shields.io/github/issues/miykael/gif_your_brain.svg)](https://github.com/miykael/gif_your_brain/issues/)
+[![GitHub pull-requests](https://img.shields.io/github/issues-pr/miykael/gif_your_brain.svg)](https://github.com/miykael/gif_your_brain/pulls/)
+[![GitHub contributors](https://img.shields.io/github/contributors/miykael/gif_your_brain.svg)](https://GitHub.com/miykael/gif_your_brain/graphs/contributors/)
+[![GitHub Commits](https://github-basic-badges.herokuapp.com/commits/miykael/gif_your_brain.svg)](https://github.com/miykael/gif_your_brain/commits/master)
+[![GitHub size](https://github-size-badge.herokuapp.com/miykael/gif_your_brain.svg)](https://github.com/miykael/gif_your_brain/archive/master.zip)
+[![GitHub HitCount](http://hits.dwyl.io/miykael/gif_your_brain.svg)](http://hits.dwyl.io/miykael/gif_your_brain)
+
 The script `brain2gif.py` allows you to create nice looking gifs from any NIfTI image. If you don't have your own brain images, than I recommend you to download the [ICBM152 template](http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009). For the examples below, I've downloaded [ICBM 2009c Nonlinear Asymmetric](http://www.bic.mni.mcgill.ca/~vfonov/icbm/2009/mni_icbm152_nlin_asym_09c_nifti.zip) and used the T1 and gray matter  template thereof.
 
 It is also possible to use your own brain image, as I will show below. The only thing that you need to make sure is, that your brain image has the right orientation. You can reorient your NIfTI image according to the MNI template standard with the FSL command: `fslreorient2std my_brain.nii my_brain.nii`.
