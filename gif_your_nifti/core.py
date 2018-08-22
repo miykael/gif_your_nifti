@@ -243,12 +243,14 @@ def write_gif_rgb(filename1, filename2, filename3, size=1, fps=18):
     # Create output mosaic
     new_img = create_mosaic_RGB(out_img1, out_img2, out_img3, maximum)
 
-    # Figure out extension
-    ext = '.{}'.format(parse_filename(filename)[2])
+    # Generate output path
+    out_filename = '{}_{}_{}_rgb.gif'.format(parse_filename(filename1)[1],
+                                             parse_filename(filename2)[1],
+                                             parse_filename(filename3)[1])
+    out_path = os.path.join(parse_filename(filename1)[0], out_filename)
 
     # Write gif file
-    mimwrite(filename1.replace(ext, '_rgb.gif'),
-             new_img, format='gif', fps=int(fps * size))
+    mimwrite(out_path, new_img, format='gif', fps=int(fps * size))
 
 
 def write_gif_pseudocolor(filename, size=1, fps=18, colormap='hot'):
