@@ -101,6 +101,11 @@ def create_mosaic_normal(out_img, maximum):
 def create_mosaic_depth(out_img, maximum):
     """Create an image with concurrent slices represented with colors.
 
+    The image shows you in color what the value of the next slice will be. If
+    the color is slightly red or blue it means that the value on the next slide
+    is brighter or darker, respectifely. It therefore encodes a certain kind of
+    depth into the gif.
+
     Parameters
     ----------
     out_img: numpy array
@@ -191,6 +196,11 @@ def write_gif_normal(filename, size=1, fps=18):
 def write_gif_depth(filename, size=1, fps=18):
     """Procedure for writing depth image.
 
+    The image shows you in color what the value of the next slice will be. If
+    the color is slightly red or blue it means that the value on the next slide
+    is brighter or darker, respectifely. It therefore encodes a certain kind of
+    depth into the gif.
+
     Parameters
     ----------
     filename: str
@@ -255,6 +265,8 @@ def write_gif_rgb(filename1, filename2, filename3, size=1, fps=18):
 
 def write_gif_pseudocolor(filename, size=1, fps=18, colormap='hot'):
     """Procedure for writing pseudo color image.
+
+    The colormap can be any colormap from matplotlib.
 
     Parameters
     ----------
