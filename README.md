@@ -17,7 +17,21 @@ gif_yout_nifti /path/to/data.nii
 
 ## Dependencies
 
+| Package                                   | Tested version |
+|-------------------------------------------|----------------|
+| [NumPy](http://www.numpy.org/)            | 1.14.2         |
+| [NiBabel](http://nipy.org/nibabel/)       | 2.2.1          |
+| [matplotlib](http://matplotlib.org/)      | 2.2.0          |
+| [imageio](https://imageio.github.io/)     | 2.2.0          |
+| [scikit-image](https://scikit-image.org/) | 0.13.0         |
+
 ## Installation
+
+Change directory to the cloned repository and run:
+```
+pip install -r requirements.txt
+python setup.py install
+```
 
 ## Examples
 
