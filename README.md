@@ -1,4 +1,4 @@
-# Gif your brain
+# Gif your nifti
 
 [![GitHub issues](https://img.shields.io/github/issues/miykael/gif_your_brain.svg)](https://github.com/miykael/gif_your_brain/issues/)
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/miykael/gif_your_brain.svg)](https://github.com/miykael/gif_your_brain/pulls/)
