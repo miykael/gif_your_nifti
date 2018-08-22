@@ -22,8 +22,8 @@ gif2nif.write_gif_rgb(input_red, input_green, input_blue, size=1, fps=20)
 # Shows how to change the size of the gif on different colored GM templates
 input = 'mni_icbm152_gm_tal_nlin_asym_09c.nii'
 
-gif2nif.write_gif_pseudocolor(input, size=0.5, fps=20, 'bone', 'gif')
-gif2nif.write_gif_pseudocolor(input, size=0.5, fps=20, 'cubehelix', 'gif')
-gif2nif.write_gif_pseudocolor(input, size=0.5, fps=20, 'CMRmap', 'gif')
-gif2nif.write_gif_pseudocolor(input, size=0.5, fps=20, 'inferno', 'gif')
-gif2nif.write_gif_pseudocolor(input, size=0.5, fps=20, 'viridis', 'gif')
+gif2nif.write_gif_pseudocolor(input, size=0.5, fps=20, 'bone')
+gif2nif.write_gif_pseudocolor(input, size=0.5, fps=20, 'cubehelix')
+gif2nif.write_gif_pseudocolor(input, size=0.5, fps=20, 'CMRmap')
+gif2nif.write_gif_pseudocolor(input, size=0.5, fps=20, 'inferno')
+gif2nif.write_gif_pseudocolor(input, size=0.5, fps=20, 'viridis')
