@@ -54,13 +54,13 @@ def main():
     print('  fps  = {}'.format(cfg.fps))
 
     # Determine gif creation mode
-    if cfg.mode in ['normal', 'presudocolor', 'depth']:
+    if cfg.mode in ['normal', 'pseudocolor', 'depth']:
         for f in args.filename:
             if cfg.mode == 'normal':
                 core.write_gif_normal(f, cfg.size, cfg.fps)
             elif cfg.mode == 'pseudocolor':
+                print('  cmap = {}'.format(cfg.cmap))
                 core.write_gif_pseudocolor(f, cfg.size, cfg.fps)
-                print('  cmap = {}')
             elif cfg.mode == 'depth':
                 core.write_gif_depth(f, cfg.size, cfg.fps)
 
