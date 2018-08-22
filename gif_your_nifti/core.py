@@ -220,7 +220,8 @@ def write_gif_rgb(filename1, filename2, filename3, size=1, fps=18,
              new_img, format=filetype, fps=int(fps * size))
 
 
-def write_gif_cmap(filename, size=1, fps=18, colormap='hot', filetype='gif'):
+def write_gif_pseudocolor(filename, size=1, fps=18, colormap='hot',
+                          filetype='gif'):
     """Procedure for writing pseudo color image.
 
     Parameters
@@ -244,9 +245,7 @@ def write_gif_cmap(filename, size=1, fps=18, colormap='hot', filetype='gif'):
 
     # Transform values according to the color map
     cmap = get_cmap(colormap)
-
     color_transformed = [cmap(new_img[i, ...]) for i in range(maximum)]
-
     cmap_img = np.delete(color_transformed, 3, 3)
 
     # Write gif file
