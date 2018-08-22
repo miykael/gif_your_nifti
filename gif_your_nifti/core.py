@@ -1,5 +1,6 @@
 """Core functions."""
 
+import os
 import nibabel as nb
 import numpy as np
 from pylab import get_cmap
@@ -7,8 +8,33 @@ from imageio import mimwrite
 from skimage.transform import resize
 
 
-def reshape_image(filename, size=1):
-    """Load and preprocess image data.
+def parse_filename(filepath):
+    """Parse input file path into directory, basename and extension.
+
+    Parameters
+    ----------
+    filepath: string
+        Input name that will be parsed into directory, basename and extension.
+
+    Returns
+    -------
+    dirname: str
+        File directory.
+    basename: str
+        File name without directory and extension.
+    ext: str
+        File extension.
+
+    """
+    path = os.path.normpath(filepath)
+    dirname = os.path.dirname(path)
+    filename = path.split(os.sep)[-1]
+    basename, ext = filename.split(os.extsep, 1)
+    return dirname, basename, ext
+
+
+def load_and_prepare_image(filename, size=1):
+    """Load and prepare image data.
 
     Parameters
     ----------
@@ -149,13 +175,16 @@ def write_gif_normal(filename, size=1, fps=18):
 
     """
     # Load NIfTI and put it in right shape
-    out_img, maximum = reshape_image(filename, size)
+    out_img, maximum = load_and_prepare_image(filename, size)
 
     # Create output mosaic
     new_img = create_mosaic_normal(out_img, maximum)
 
+    # Figure out extension
+    ext = '.{}'.format(parse_filename(filename)[2])
+
     # Write gif file
-    mimwrite(filename.replace('.nii', '.gif'), new_img,
+    mimwrite(filename.replace(ext, '.gif'), new_img,
              format='gif', fps=int(fps * size))
 
 
@@ -173,13 +202,16 @@ def write_gif_depth(filename, size=1, fps=18):
 
     """
     # Load NIfTI and put it in right shape
-    out_img, maximum = reshape_image(filename, size)
+    out_img, maximum = load_and_prepare_image(filename, size)
 
     # Create output mosaic
     new_img = create_mosaic_depth(out_img, maximum)
 
+    # Figure out extension
+    ext = '.{}'.format(parse_filename(filename)[2])
+
     # Write gif file
-    mimwrite(filename.replace('.nii', '_depth.gif'), new_img,
+    mimwrite(filename.replace(ext, '_depth.gif'), new_img,
              format='gif', fps=int(fps * size))
 
 
@@ -201,9 +233,9 @@ def write_gif_rgb(filename1, filename2, filename3, size=1, fps=18):
 
     """
     # Load NIfTI and put it in right shape
-    out_img1, maximum1 = reshape_image(filename1, size)
-    out_img2, maximum2 = reshape_image(filename2, size)
-    out_img3, maximum3 = reshape_image(filename3, size)
+    out_img1, maximum1 = load_and_prepare_image(filename1, size)
+    out_img2, maximum2 = load_and_prepare_image(filename2, size)
+    out_img3, maximum3 = load_and_prepare_image(filename3, size)
 
     if maximum1 == maximum2 and maximum1 == maximum3:
         maximum = maximum1
@@ -211,8 +243,11 @@ def write_gif_rgb(filename1, filename2, filename3, size=1, fps=18):
     # Create output mosaic
     new_img = create_mosaic_RGB(out_img1, out_img2, out_img3, maximum)
 
+    # Figure out extension
+    ext = '.{}'.format(parse_filename(filename)[2])
+
     # Write gif file
-    mimwrite(filename1.replace('.nii', '_rgb.gif'),
+    mimwrite(filename1.replace(ext, '_rgb.gif'),
              new_img, format='gif', fps=int(fps * size))
 
 
@@ -232,7 +267,7 @@ def write_gif_pseudocolor(filename, size=1, fps=18, colormap='hot'):
 
     """
     # Load NIfTI and put it in right shape
-    out_img, maximum = reshape_image(filename, size)
+    out_img, maximum = load_and_prepare_image(filename, size)
 
     # Create output mosaic
     new_img = create_mosaic_normal(out_img, maximum)
@@ -242,6 +277,8 @@ def write_gif_pseudocolor(filename, size=1, fps=18, colormap='hot'):
     color_transformed = [cmap(new_img[i, ...]) for i in range(maximum)]
     cmap_img = np.delete(color_transformed, 3, 3)
 
+    # Figure out extension
+    ext = '.{}'.format(parse_filename(filename)[2])
     # Write gif file
-    mimwrite(filename.replace('.nii', '_{}.gif'.format(colormap)),
+    mimwrite(filename.replace(ext, '_{}.gif'.format(colormap)),
              cmap_img, format='gif', fps=int(fps * size))
