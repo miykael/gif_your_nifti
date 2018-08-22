@@ -135,7 +135,7 @@ def create_mosaic_RGB(out_img1, out_img2, out_img3, maximum):
     return out_img
 
 
-def write_gif_normal(filename, size=1, fps=18, filetype='gif'):
+def write_gif_normal(filename, size=1, fps=18):
     """Procedure for writing grayscale image.
 
     Parameters
@@ -146,7 +146,6 @@ def write_gif_normal(filename, size=1, fps=18, filetype='gif'):
         Between 0 and 1.
     fps: int
         Frames per second
-    filetype: str
 
     """
     # Load NIfTI and put it in right shape
@@ -156,11 +155,11 @@ def write_gif_normal(filename, size=1, fps=18, filetype='gif'):
     new_img = create_mosaic_normal(out_img, maximum)
 
     # Write gif file
-    mimwrite(filename.replace('.nii', '.%s' % filetype), new_img,
-             format=filetype, fps=int(fps * size))
+    mimwrite(filename.replace('.nii', '.gif'), new_img,
+             format='gif', fps=int(fps * size))
 
 
-def write_gif_depth(filename, size=1, fps=18, filetype='gif'):
+def write_gif_depth(filename, size=1, fps=18):
     """Procedure for writing depth image.
 
     Parameters
@@ -171,7 +170,6 @@ def write_gif_depth(filename, size=1, fps=18, filetype='gif'):
         Between 0 and 1.
     fps: int
         Frames per second
-    filetype: str
 
     """
     # Load NIfTI and put it in right shape
@@ -181,12 +179,11 @@ def write_gif_depth(filename, size=1, fps=18, filetype='gif'):
     new_img = create_mosaic_depth(out_img, maximum)
 
     # Write gif file
-    mimwrite(filename.replace('.nii', '_depth.%s' % filetype), new_img,
-             format=filetype, fps=int(fps * size))
+    mimwrite(filename.replace('.nii', '_depth.gif'), new_img,
+             format='gif', fps=int(fps * size))
 
 
-def write_gif_rgb(filename1, filename2, filename3, size=1, fps=18,
-                  filetype='gif'):
+def write_gif_rgb(filename1, filename2, filename3, size=1, fps=18):
     """Procedure for writing RGB image.
 
     Parameters
@@ -201,7 +198,6 @@ def write_gif_rgb(filename1, filename2, filename3, size=1, fps=18,
         Between 0 and 1.
     fps: int
         Frames per second
-    filetype: str
 
     """
     # Load NIfTI and put it in right shape
@@ -216,12 +212,11 @@ def write_gif_rgb(filename1, filename2, filename3, size=1, fps=18,
     new_img = create_mosaic_RGB(out_img1, out_img2, out_img3, maximum)
 
     # Write gif file
-    mimwrite(filename1.replace('.nii', '_rgb.%s' % filetype),
-             new_img, format=filetype, fps=int(fps * size))
+    mimwrite(filename1.replace('.nii', '_rgb.gif'),
+             new_img, format='gif', fps=int(fps * size))
 
 
-def write_gif_pseudocolor(filename, size=1, fps=18, colormap='hot',
-                          filetype='gif'):
+def write_gif_pseudocolor(filename, size=1, fps=18, colormap='hot'):
     """Procedure for writing pseudo color image.
 
     Parameters
@@ -234,7 +229,6 @@ def write_gif_pseudocolor(filename, size=1, fps=18, colormap='hot',
         Frames per second
     colormap: str
         Name of the colormap that will be used.
-    filetype: str
 
     """
     # Load NIfTI and put it in right shape
@@ -249,5 +243,5 @@ def write_gif_pseudocolor(filename, size=1, fps=18, colormap='hot',
     cmap_img = np.delete(color_transformed, 3, 3)
 
     # Write gif file
-    mimwrite(filename.replace('.nii', '_%s.%s' % (colormap, filetype)),
-             cmap_img, format=filetype, fps=int(fps * size))
+    mimwrite(filename.replace('.nii', '_{}.gif'.format(colormap)),
+             cmap_img, format='gif', fps=int(fps * size))
