@@ -6,11 +6,12 @@
 [![GitHub HitCount](http://hits.dwyl.io/miykael/gif_your_brain.svg)](http://hits.dwyl.io/miykael/gif_your_brain)
 
 # Gif your nifti
-Does what it says. Create nice looking gifs from your nifti (`.nii` or `.nii.gz`) files with a simple command:
+Create nice looking gifs from your nifti (`.nii` or `.nii.gz`) files with a simple command:
 
 ```
 gif_yout_nifti /path/to/data.nii
 ```
+<img src="gifs/Me_2014_grayscale.gif">
 
 # Getting started
 
@@ -38,9 +39,9 @@ gif_your_nifti /path/to/mni_icbm152_t1_tal_nlin_asym_09c.nii
 
 To create a [pseudocolor](https://en.wikipedia.org/wiki/False_color#Pseudocolor) gif, type the following command in your commandline:
 ```
-gif_your_nifti /path/to/Me_2014.nii --mode pseudocolor --cmap Spectral_r
+gif_your_nifti /path/to/Me_2014.nii --mode pseudocolor --cmap plasma
 ```
-<img src="gifs/Me_2014_Spectral_r.gif">
+<img src="gifs/mni_icbm152_t1_tal_nlin_asym_09c_plasma.gif">
 
 The colormap can be any colormap from the [matplotlib colormaps](https://matplotlib.org/examples/color/colormaps_reference.html).
 
@@ -61,7 +62,7 @@ The image shows you in color what the value of the next slice will be. If the co
 To create a Red Blue Green (RGB) gif, type the following command in your commandline:
 
 ```
-gif_your_nifti /path/to/data1.nii /path/to/data2.nii /path/to/data3.nii --mode rgb
+gif_your_nifti /path/to/gm.nii /path/to/wm.nii /path/to/csf.nii --mode rgb
 ```
 <img src="gifs/mni_icbm152_gm_tal_nlin_asym_09c_rgb.gif">
 
