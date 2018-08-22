@@ -87,6 +87,10 @@ gif_your_nifti /path/to/mni_icbm152_gm_tal_nlin_asym_09c.nii --size 0.5 --mode p
 
 Changing the size of a gif also changes the frames per second parameter, so that the overall tempo stays the same. Meaning, if you have a gif of original size with 20 frames per second (fps), changing the size to 50%, will cause the smaller gif to run at 10 fps, so that both take the same amount for a cycle.
 
+### Use within a python script
+
+You can also use `gif_your_nifti` from a python script. See [script examples](examples/example_script.py) for further information.
+
 # License
 
 This project is licensed under [BSD 3-Clause License](LICENSE.md).
