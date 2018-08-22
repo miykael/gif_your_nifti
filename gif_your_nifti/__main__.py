@@ -13,7 +13,7 @@ def main():
 
     parser.add_argument(
         'filename',  metavar='path', nargs='+',
-        help="Path to image. Multiple files can be provided."
+        help="Path to image. Multiple paths can be provided."
         )
     parser.add_argument(
         '--mode', type=str, required=False,
@@ -48,19 +48,26 @@ def main():
     welcome_decor = '=' * len(welcome_str)
     print('{}\n{}\n{}'.format(welcome_decor, welcome_str, welcome_decor))
 
-    # Determine gif creation mode
-    if cfg.mode == 'normal':
-        core.write_gif_normal(args.filename[0], cfg.size, cfg.fps)
-    elif cfg.mode == 'pseudocolor':
-        core.write_gif_pseudocolor(args.filename[0], cfg.size, cfg.fps)
-    elif cfg.mode == 'depth':
-        core.write_gif_depth(args.filename[0], cfg.size, cfg.fps)
-    elif cfg.mode == 'rgb':
-        core.write_gif_rgb(args.filename[0], cfg.size, cfg.fps)
-    else:
-        raise ValueError("Unrecognized mode.")
+    print('Selections:')
+    print('  mode = {}'.format(cfg.mode))
+    print('  size = {}'.format(cfg.size))
+    print('  fps  = {}'.format(cfg.fps))
 
-    print('Finished.')
+    for f in args.filename:
+        # Determine gif creation mode
+        if cfg.mode == 'normal':
+            core.write_gif_normal(f, cfg.size, cfg.fps)
+            print('  cmap = {}')
+        elif cfg.mode == 'pseudocolor':
+            core.write_gif_pseudocolor(f, cfg.size, cfg.fps)
+        elif cfg.mode == 'depth':
+            core.write_gif_depth(f, cfg.size, cfg.fps)
+        elif cfg.mode == 'rgb':
+            core.write_gif_rgb(f, cfg.size, cfg.fps)
+        else:
+            raise ValueError("Unrecognized mode.")
+
+        print("Gif of '{}' is created.".format(f))
 
 
 if __name__ == "__main__":
