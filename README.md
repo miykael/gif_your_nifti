@@ -68,3 +68,7 @@ write_gif_cmap('mni_icbm152_gm_tal_nlin_asym_09c.nii', 0.5, fps, 'viridis', 'gif
 <img src="gifs/mni_icbm152_gm_tal_nlin_asym_09c_inferno.gif"><img src="gifs/mni_icbm152_gm_tal_nlin_asym_09c_viridis.gif">
 
 **Note:** Changing the size of a gif also changes the frames per second parameter, so that the overall tempo stays the same. Meaning, if you have a gif of original size with 24fps, changing the size to 50%, will cause the smaller gif to run at 12fps, so that both take the same amount for a cycle.
+
+# License
+
+This project is licensed under [BSD 3-Clause License](LICENSE.md)
