@@ -2,28 +2,25 @@
 
 import gif_your_nifti.core as gif2nif
 
-# Shows the creation of a normal grayscale gif - based on T1 MNI template
-gif2nif.write_gif_normal('mni_icbm152_t1_tal_nlin_asym_09c.nii',
-                         size=1, fps=20)
+filename = 'mni_icbm152_t1_tal_nlin_asym_09c.nii'
 
-# Shows the creation of colored gif - based on a individual brain image
-gif2nif.write_gif_pseudocolor('Me_2014.nii', size=1, fps=20, 'Spectral_r')
+# Create a normal grayscale gif.
+gif2nif.write_gif_normal(filename)
 
-# Shows the creation of a depth gif - based on the gray matter MNI template
-gif2nif.write_gif_depth('mni_icbm152_gm_tal_nlin_asym_09c.nii', size=1, fps=20)
+# Create a pseudocolored gif.
+gif2nif.write_gif_pseudocolor(filename, colormap='plasma')
 
-# Shows the creation of a RGB gif - based on the gray matter, white matter
-# and CSF MNI template
-input_red = 'mni_icbm152_gm_tal_nlin_asym_09c.nii'
-input_green = 'mni_icbm152_wm_tal_nlin_asym_09c.nii'
-input_blue = 'mni_icbm152_csf_tal_nlin_asym_09c.nii'
-gif2nif.write_gif_rgb(input_red, input_green, input_blue, size=1, fps=20)
+# Create a depth gif.
+gif2nif.write_gif_depth(filename)
 
-# Shows how to change the size of the gif on different colored GM templates
-input = 'mni_icbm152_gm_tal_nlin_asym_09c.nii'
+# Change the size of gifs.
+gif2nif.write_gif_pseudocolor(filename, size=0.5, colormap='cubehelix')
+gif2nif.write_gif_pseudocolor(filename, size=0.5, colormap='inferno')
+gif2nif.write_gif_pseudocolor(filename, size=0.5, colormap='viridis')
 
-gif2nif.write_gif_pseudocolor(input, size=0.5, fps=20, 'bone')
-gif2nif.write_gif_pseudocolor(input, size=0.5, fps=20, 'cubehelix')
-gif2nif.write_gif_pseudocolor(input, size=0.5, fps=20, 'CMRmap')
-gif2nif.write_gif_pseudocolor(input, size=0.5, fps=20, 'inferno')
-gif2nif.write_gif_pseudocolor(input, size=0.5, fps=20, 'viridis')
+# Create an RGB gif, based on gray matter, white matter and cerebrospinal fluid
+# images from MNI template.
+filename1 = 'mni_icbm152_gm_tal_nlin_asym_09c.nii'
+filename2 = 'mni_icbm152_wm_tal_nlin_asym_09c.nii'
+filename3 = 'mni_icbm152_csf_tal_nlin_asym_09c.nii'
+gif2nif.write_gif_rgb(filename1, filename2, filename3)
