@@ -53,21 +53,27 @@ def main():
     print('  size = {}'.format(cfg.size))
     print('  fps  = {}'.format(cfg.fps))
 
-    for f in args.filename:
-        # Determine gif creation mode
-        if cfg.mode == 'normal':
-            core.write_gif_normal(f, cfg.size, cfg.fps)
-            print('  cmap = {}')
-        elif cfg.mode == 'pseudocolor':
-            core.write_gif_pseudocolor(f, cfg.size, cfg.fps)
-        elif cfg.mode == 'depth':
-            core.write_gif_depth(f, cfg.size, cfg.fps)
-        elif cfg.mode == 'rgb':
-            core.write_gif_rgb(f, cfg.size, cfg.fps)
-        else:
-            raise ValueError("Unrecognized mode.")
+    # Determine gif creation mode
+    if cfg.mode in ['normal', 'presudocolor', 'depth']:
+        for f in args.filename:
+            if cfg.mode == 'normal':
+                core.write_gif_normal(f, cfg.size, cfg.fps)
+                print('  cmap = {}')
+            elif cfg.mode == 'pseudocolor':
+                core.write_gif_pseudocolor(f, cfg.size, cfg.fps)
+            elif cfg.mode == 'depth':
+                core.write_gif_depth(f, cfg.size, cfg.fps)
 
-        print("Gif of '{}' is created.".format(f))
+    elif cfg.mode == 'rgb':
+        if len(args.filename) != 3:
+            raise ValueError('RGB mode requires 3 input files.')
+        else:
+            core.write_gif_rgb(args.filename[0], args.filename[1],
+                               args.filename[2], cfg.size, cfg.fps)
+    else:
+        raise ValueError("Unrecognized mode.")
+
+    print('Finished.')
 
 
 if __name__ == "__main__":
