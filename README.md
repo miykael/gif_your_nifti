@@ -9,7 +9,7 @@
 Create nice looking gifs from your nifti (`.nii` or `.nii.gz`) files with a simple command:
 
 ```
-gif_yout_nifti /path/to/data.nii
+gif_your_nifti /path/to/data.nii
 ```
 <img src="gifs/Me_2014_grayscale.gif">
 
