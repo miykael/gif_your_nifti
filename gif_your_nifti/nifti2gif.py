@@ -1,3 +1,5 @@
+"""Core functions."""
+
 import nibabel as nb
 import numpy as np
 from pylab import get_cmap
@@ -6,7 +8,20 @@ from skimage.transform import resize
 
 
 def reshape_image(filename, size=1):
+    """Load and preprocess image data.
 
+    Parameters
+    ----------
+    filename1: str
+        Input file (eg. /john/home/image.nii.gz)
+    size: float
+        Image resizing factor.
+
+    Returns
+    -------
+    out_img: numpy array
+
+    """
     # Load NIfTI file
     data = nb.load(filename).get_data()
 
@@ -22,18 +37,30 @@ def reshape_image(filename, size=1):
             int(y):b + int(y),
             int(z):c + int(z)] = data
 
-    out_img /= out_img.max()
+    out_img /= out_img.max()  # scale image values between 0-1
 
     # Resize image by the following factor
     if size != 1:
         out_img = resize(out_img, [int(size * maximum)] * 3)
 
-    return out_img, int(maximum * size)
+    maximum = int(maximum * size)
+
+    return out_img, maximum
 
 
 def create_mosaic_normal(out_img, maximum):
+    """Create grayscale image.
 
-    # Create grayscale output image of template brain
+    Parameters
+    ----------
+    out_img: numpy array
+    maximum: int
+
+    Returns
+    -------
+    new_img: numpy array
+
+    """
     new_img = np.array(
         [np.hstack((
             np.hstack((
@@ -46,7 +73,18 @@ def create_mosaic_normal(out_img, maximum):
 
 
 def create_mosaic_depth(out_img, maximum):
+    """Create an image with concurrent slices represented with colors.
 
+    Parameters
+    ----------
+    out_img: numpy array
+    maximum: int
+
+    Returns
+    -------
+    new_img: numpy array
+
+    """
     # Load normal mosaic image
     new_img = create_mosaic_normal(out_img, maximum)
 
@@ -65,7 +103,18 @@ def create_mosaic_depth(out_img, maximum):
 
 
 def create_mosaic_RGB(out_img1, out_img2, out_img3, maximum):
+    """Create RGB image.
 
+    Parameters
+    ----------
+    out_img: numpy array
+    maximum: int
+
+    Returns
+    -------
+    new_img: numpy array
+
+    """
     # Load normal mosaic image
     new_img1 = create_mosaic_normal(out_img1, maximum)
     new_img2 = create_mosaic_normal(out_img2, maximum)
@@ -87,7 +136,19 @@ def create_mosaic_RGB(out_img1, out_img2, out_img3, maximum):
 
 
 def write_gif_normal(filename, size=1, fps=18, filetype='gif'):
+    """Procedure for writing grayscale image.
 
+    Parameters
+    ----------
+    filename: str
+        Input file (eg. /john/home/image.nii.gz)
+    size: float
+        Between 0 and 1.
+    fps: int
+        Frames per second
+    filetype: str
+
+    """
     # Load NIfTI and put it in right shape
     out_img, maximum = reshape_image(filename, size)
 
@@ -100,7 +161,19 @@ def write_gif_normal(filename, size=1, fps=18, filetype='gif'):
 
 
 def write_gif_depth(filename, size=1, fps=18, filetype='gif'):
+    """Procedure for writing depth image.
 
+    Parameters
+    ----------
+    filename: str
+        Input file (eg. /john/home/image.nii.gz)
+    size: float
+        Between 0 and 1.
+    fps: int
+        Frames per second
+    filetype: str
+
+    """
     # Load NIfTI and put it in right shape
     out_img, maximum = reshape_image(filename, size)
 
@@ -108,13 +181,29 @@ def write_gif_depth(filename, size=1, fps=18, filetype='gif'):
     new_img = create_mosaic_depth(out_img, maximum)
 
     # Write gif file
-    mimwrite(filename.replace('.nii', '_depth.%s' % filetype),
-             new_img, format=filetype, fps=int(fps * size))
+    mimwrite(filename.replace('.nii', '_depth.%s' % filetype), new_img,
+             format=filetype, fps=int(fps * size))
 
 
 def write_gif_rgb(filename1, filename2, filename3, size=1, fps=18,
                   filetype='gif'):
+    """Procedure for writing RGB image.
 
+    Parameters
+    ----------
+    filename1: str
+        Input file for red channel.
+    filename2: str
+        Input file for green channel.
+    filename3: str
+        Input file for blue channel.
+    size: float
+        Between 0 and 1.
+    fps: int
+        Frames per second
+    filetype: str
+
+    """
     # Load NIfTI and put it in right shape
     out_img1, maximum1 = reshape_image(filename1, size)
     out_img2, maximum2 = reshape_image(filename2, size)
@@ -132,7 +221,21 @@ def write_gif_rgb(filename1, filename2, filename3, size=1, fps=18,
 
 
 def write_gif_cmap(filename, size=1, fps=18, colormap='hot', filetype='gif'):
+    """Procedure for writing pseudo color image.
 
+    Parameters
+    ----------
+    filename1: str
+        Input file (eg. /john/home/image.nii.gz)
+    size: float
+        Between 0 and 1.
+    fps: int
+        Frames per second
+    colormap: str
+        Name of the colormap that will be used.
+    filetype: str
+
+    """
     # Load NIfTI and put it in right shape
     out_img, maximum = reshape_image(filename, size)
 
