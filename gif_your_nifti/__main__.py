@@ -60,7 +60,7 @@ def main():
                 core.write_gif_normal(f, cfg.size, cfg.fps)
             elif cfg.mode == 'pseudocolor':
                 print('  cmap = {}'.format(cfg.cmap))
-                core.write_gif_pseudocolor(f, cfg.size, cfg.fps)
+                core.write_gif_pseudocolor(f, cfg.size, cfg.fps, cfg.cmap)
             elif cfg.mode == 'depth':
                 core.write_gif_depth(f, cfg.size, cfg.fps)
 
