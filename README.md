@@ -1,5 +1,3 @@
-# Gif your nifti
-
 [![GitHub issues](https://img.shields.io/github/issues/miykael/gif_your_brain.svg)](https://github.com/miykael/gif_your_brain/issues/)
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/miykael/gif_your_brain.svg)](https://github.com/miykael/gif_your_brain/pulls/)
 [![GitHub contributors](https://img.shields.io/github/contributors/miykael/gif_your_brain.svg)](https://GitHub.com/miykael/gif_your_brain/graphs/contributors/)
@@ -7,68 +5,88 @@
 [![GitHub size](https://github-size-badge.herokuapp.com/miykael/gif_your_brain.svg)](https://github.com/miykael/gif_your_brain/archive/master.zip)
 [![GitHub HitCount](http://hits.dwyl.io/miykael/gif_your_brain.svg)](http://hits.dwyl.io/miykael/gif_your_brain)
 
-The script `brain2gif.py` allows you to create nice looking gifs from any NIfTI image. If you don't have your own brain images, than I recommend you to download the [ICBM152 template](http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009). For the examples below, I've downloaded [ICBM 2009c Nonlinear Asymmetric](http://www.bic.mni.mcgill.ca/~vfonov/icbm/2009/mni_icbm152_nlin_asym_09c_nifti.zip) and used the T1 and gray matter  template thereof.
+# Gif your nifti
+Does what it says. Create nice looking gifs from your nifti (`.nii` or `.nii.gz`) files with a simple command:
+
+```
+gif_yout_nifti /path/to/data.nii
+```
+
+# Getting started
+
+## Dependencies
+
+## Installation
+
+## Examples
+
+For the examples below, I've downloaded [ICBM 2009c Nonlinear Asymmetric](http://www.bic.mni.mcgill.ca/~vfonov/icbm/2009/mni_icbm152_nlin_asym_09c_nifti.zip) and used the T1 and gray matter template thereof.
 
 It is also possible to use your own brain image, as I will show below. The only thing that you need to make sure is, that your brain image has the right orientation. You can reorient your NIfTI image according to the MNI template standard with the FSL command: `fslreorient2std my_brain.nii my_brain.nii`.
 
+### Grayscale GIF
 
-# Examples
+To create a simple gray scale gif, type the following command in your commandline:
 
-## Grayscale GIF
-
-To create a simple gray scale gif, use `write_gif_normal(nifti_name, size, frames_per_second, filetype)`:
-
+```
+gif_your_nifti /path/to/mni_icbm152_t1_tal_nlin_asym_09c.nii
+```
 <img src="gifs/mni_icbm152_t1_tal_nlin_asym_09c.gif">
 
-Command: `write_gif_normal('mni_icbm152_t1_tal_nlin_asym_09c.nii', 1, 20, 'gif')`
 
+### Pseudocolor GIF
 
-## Colored GIF
+To create a [pseudocolor](https://en.wikipedia.org/wiki/False_color#Pseudocolor) gif, type the following command in your commandline:
+```
+gif_your_nifti /path/to/Me_2014.nii --mode pseudocolor --cmap Spectral_r
+```
+<img src="gifs/Me_2014_Spectral_r.gif">
 
-To create a colored gif, use `write_gif_cmap(nifti_name, size, frames_per_second, colormap, filetype)`:
+The colormap can be any colormap from the [matplotlib colormaps](https://matplotlib.org/examples/color/colormaps_reference.html).
 
-<img src="gifs/Me_2014_Spectral_r.gif" width="687">
+### Depth GIF
 
-Command: `write_gif_cmap('Me_2014.nii', 1, 20, 'Spectral_r', 'gif')` - Where the colormap can be any colormap from the [matplotlib colormaps](https://matplotlib.org/examples/color/colormaps_reference.html).
+To create a depth gif, type the following command in your commandline:
 
-
-## Depth GIF
-
-To create a depth gif, use `write_gif_depth(nifti_name, size, frames_per_second, filetype)`:
-
+```
+gif_your_nifti /path/to/mni_icbm152_t1_tal_nlin_asym_09c.nii --mode depth
+```
 <img src="gifs/mni_icbm152_gm_tal_nlin_asym_09c_depth.gif">
 
-Command: `write_gif_depth('mni_icbm152_gm_tal_nlin_asym_09c.nii', 1, 20, 'gif')` - The image shows you in color what the value of the next slice will be. If the color is slightly red or blue it means that the value on the next slide is brighter or darker, respectifely. It therefore encodes a certain kind of depth into the gif.
+The image shows you in color what the value of the next slice will be. If the color is slightly red or blue it means that the value on the next slide is brighter or darker, respectifely. It therefore encodes a certain kind of depth into the gif.
 
 
-## RGB GIF
+### RGB GIF
 
-To create a RGB gif, use `write_gif_RGB(nifti_name1, nifti_name2, nifti_name3, size, frames_per_second, filetype)`:
+To create a Red Blue Green (RGB) gif, type the following command in your commandline:
 
+```
+gif_your_nifti /path/to/data1.nii /path/to/data2.nii /path/to/data3.nii --mode rgb
+```
 <img src="gifs/mni_icbm152_gm_tal_nlin_asym_09c_rgb.gif">
 
-Command: `write_gif_RGB(nifti_name1, nifti_name2, nifti_name3, size, frames_per_second, filetype)` - This image takes the values from the first NIfTI file as its red colors, the values of the second NIfTI file as its green colors and the values of its third NIfTI as its blue color code.
+This image takes the values from the first NIfTI file as its red colors, second NIfTI file as its green colors and third NIfTI as its blue colors.
 
 
 ## Resize GIF
 
 It is also possible to change the size of a gif, by changing the `size` parameter in any function above. The following are examples of resizing the images to 50% of it's original size, with:
 
-```python
-write_gif_normal('mni_icbm152_gm_tal_nlin_asym_09c.nii', 0.5, fps, 'gif')
-write_gif_cmap('mni_icbm152_gm_tal_nlin_asym_09c.nii', 0.5, fps, 'bone', 'gif')
-write_gif_cmap('mni_icbm152_gm_tal_nlin_asym_09c.nii', 0.5, fps, 'cubehelix', 'gif')
-write_gif_cmap('mni_icbm152_gm_tal_nlin_asym_09c.nii', 0.5, fps, 'CMRmap', 'gif')
-write_gif_cmap('mni_icbm152_gm_tal_nlin_asym_09c.nii', 0.5, fps, 'inferno', 'gif')
-write_gif_cmap('mni_icbm152_gm_tal_nlin_asym_09c.nii', 0.5, fps, 'viridis', 'gif')
+
+```
+gif_your_nifti /path/to/mni_icbm152_gm_tal_nlin_asym_09c.nii --size 0.5
+gif_your_nifti /path/to/mni_icbm152_gm_tal_nlin_asym_09c.nii --size 0.5 --mode pseudocolor --cmap cubehelix
+gif_your_nifti /path/to/mni_icbm152_gm_tal_nlin_asym_09c.nii --size 0.5 --mode pseudocolor --cmap inferno
+gif_your_nifti /path/to/mni_icbm152_gm_tal_nlin_asym_09c.nii --size 0.5 --mode pseudocolor --cmap viridis
 ```
 
-<img src="gifs/mni_icbm152_gm_tal_nlin_asym_09c.gif"><img src="gifs/mni_icbm152_gm_tal_nlin_asym_09c_bone.gif">
-<img src="gifs/mni_icbm152_gm_tal_nlin_asym_09c_cubehelix.gif"><img src="gifs/mni_icbm152_gm_tal_nlin_asym_09c_CMRmap.gif">
-<img src="gifs/mni_icbm152_gm_tal_nlin_asym_09c_inferno.gif"><img src="gifs/mni_icbm152_gm_tal_nlin_asym_09c_viridis.gif">
+<img src="gifs/mni_icbm152_gm_tal_nlin_asym_09c.gif">
+<img src="gifs/mni_icbm152_gm_tal_nlin_asym_09c_cubehelix.gif">
+<img src="gifs/mni_icbm152_gm_tal_nlin_asym_09c_inferno.gif">
+<img src="gifs/mni_icbm152_gm_tal_nlin_asym_09c_viridis.gif">
 
-**Note:** Changing the size of a gif also changes the frames per second parameter, so that the overall tempo stays the same. Meaning, if you have a gif of original size with 24fps, changing the size to 50%, will cause the smaller gif to run at 12fps, so that both take the same amount for a cycle.
+Changing the size of a gif also changes the frames per second parameter, so that the overall tempo stays the same. Meaning, if you have a gif of original size with 20 frames per second (fps), changing the size to 50%, will cause the smaller gif to run at 10 fps, so that both take the same amount for a cycle.
 
 # License
 
-This project is licensed under [BSD 3-Clause License](LICENSE.md)
+This project is licensed under [BSD 3-Clause License](LICENSE.md).
