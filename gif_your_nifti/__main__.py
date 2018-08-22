@@ -58,9 +58,9 @@ def main():
         for f in args.filename:
             if cfg.mode == 'normal':
                 core.write_gif_normal(f, cfg.size, cfg.fps)
-                print('  cmap = {}')
             elif cfg.mode == 'pseudocolor':
                 core.write_gif_pseudocolor(f, cfg.size, cfg.fps)
+                print('  cmap = {}')
             elif cfg.mode == 'depth':
                 core.write_gif_depth(f, cfg.size, cfg.fps)
 
