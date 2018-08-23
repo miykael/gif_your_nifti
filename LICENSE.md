@@ -1,6 +1,6 @@
 BSD 3-Clause License
 
-Copyright (c) 2017, Michael Notter and the gif_your_brain developers
+Copyright (c) 2017, Michael Notter and the gif_your_nifti developers
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
