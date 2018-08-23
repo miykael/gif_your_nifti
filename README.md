@@ -27,7 +27,7 @@ gif_your_nifti /path/to/data.nii
 
 ## Installation
 
-Change directory to the cloned repository and run:
+Navigate to the main page of the repository and clone it. Then, change directory to the cloned repository and run:
 ```
 pip install -r requirements.txt
 python setup.py install
