@@ -3,7 +3,7 @@
 import os
 import nibabel as nb
 import numpy as np
-from matplotlib.pyplot import get_cmap
+from matplotlib.cm import get_cmap
 from imageio import mimwrite
 from skimage.transform import resize
 
