@@ -33,6 +33,20 @@ pip install -r requirements.txt
 python setup.py install
 ```
 
+## Docker
+
+Build a docker container with:
+
+```
+docker build -t gif_your_nifti .
+```
+
+Run with docker:
+
+```
+docker run --rm -v /path/to/nifti/:/data gif_your_nifti:latest /data/image.nii
+```
+
 ## Examples
 
 For the examples below, I've downloaded [ICBM 2009c Nonlinear Asymmetric](http://www.bic.mni.mcgill.ca/~vfonov/icbm/2009/mni_icbm152_nlin_asym_09c_nifti.zip) and used the T1 and gray matter template thereof.
