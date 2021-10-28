@@ -3,7 +3,6 @@
 [![GitHub contributors](https://img.shields.io/github/contributors/miykael/gif_your_nifti.svg)](https://GitHub.com/miykael/gif_your_nifti/graphs/contributors/)
 [![GitHub Commits](https://github-basic-badges.herokuapp.com/commits/miykael/gif_your_nifti.svg)](https://github.com/miykael/gif_your_nifti/commits/master)
 [![GitHub size](https://github-size-badge.herokuapp.com/miykael/gif_your_nifti.svg)](https://github.com/miykael/gif_your_nifti/archive/master.zip)
-[![GitHub HitCount](http://hits.dwyl.io/miykael/gif_your_nifti.svg)](http://hits.dwyl.io/miykael/gif_your_nifti)
 
 # Gif your nifti
 Create nice looking gifs from your nifti (`.nii` or `.nii.gz`) files with a simple command:
