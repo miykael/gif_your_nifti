@@ -49,7 +49,7 @@ def load_and_prepare_image(filename, size=1):
 
     """
     # Load NIfTI file
-    data = nb.load(filename).get_data()
+    data = nb.load(filename).get_fdata()
 
     # Pad data array with zeros to make the shape isometric
     maximum = np.max(data.shape)
