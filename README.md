@@ -5,11 +5,13 @@
 [![GitHub size](https://github-size-badge.herokuapp.com/miykael/gif_your_nifti.svg)](https://github.com/miykael/gif_your_nifti/archive/master.zip)
 
 # Gif your nifti
+
 Create nice looking gifs from your nifti (`.nii` or `.nii.gz`) files with a simple command:
 
-```
+```shell
 gif_your_nifti /path/to/data.nii
 ```
+
 <img src="gifs/Me_2014_grayscale.gif">
 
 # Getting started
@@ -17,7 +19,7 @@ gif_your_nifti /path/to/data.nii
 ## Dependencies
 
 | Package                                   | Tested version |
-|-------------------------------------------|----------------|
+| ----------------------------------------- | -------------- |
 | [NumPy](http://www.numpy.org/)            | 1.14.2         |
 | [NiBabel](http://nipy.org/nibabel/)       | 2.2.1          |
 | [matplotlib](http://matplotlib.org/)      | 2.2.0          |
@@ -26,23 +28,32 @@ gif_your_nifti /path/to/data.nii
 
 ## Installation
 
-Navigate to the main page of the repository and clone it. Then, change directory to the cloned repository and run:
+The quickest method is to install directly from GitHub:
+
+```shell
+pip install git+https://github.com/miykael/gif_your_nifti.git
 ```
-pip install -r requirements.txt
-python setup.py install
+
+Alternately, navigate to the main page of the repository and clone it.
+Then, change directory to the cloned repository and run:
+
+```shell
+pip install .  # If you're not making changes
+# or
+pip install -r requirements.txt  # If you're a developer
 ```
 
 ## Docker
 
 Build a docker container with:
 
-```
+```shell
 docker build -t gif_your_nifti .
 ```
 
 Run with docker:
 
-```
+```shell
 docker run --rm -v /path/to/nifti/:/data gif_your_nifti:latest /data/image.nii
 ```
 
@@ -56,18 +67,20 @@ It is also possible to use your own brain image, as I will show below. The only 
 
 To create a simple gray scale gif, type the following command in your commandline:
 
-```
+```shell
 gif_your_nifti /path/to/mni_icbm152_t1_tal_nlin_asym_09c.nii
 ```
-<img src="gifs/mni_icbm152_t1_tal_nlin_asym_09c.gif">
 
+<img src="gifs/mni_icbm152_t1_tal_nlin_asym_09c.gif">
 
 ### Pseudocolor GIF
 
 To create a [pseudocolor](https://en.wikipedia.org/wiki/False_color#Pseudocolor) gif, type the following command in your commandline:
-```
+
+```shell
 gif_your_nifti /path/to/Me_2014.nii --mode pseudocolor --cmap plasma
 ```
+
 <img src="gifs/mni_icbm152_t1_tal_nlin_asym_09c_plasma.gif">
 
 The colormap can be any colormap from the [matplotlib colormaps](https://matplotlib.org/examples/color/colormaps_reference.html).
@@ -76,32 +89,31 @@ The colormap can be any colormap from the [matplotlib colormaps](https://matplot
 
 To create a depth gif, type the following command in your commandline:
 
-```
+```shell
 gif_your_nifti /path/to/mni_icbm152_t1_tal_nlin_asym_09c.nii --mode depth
 ```
+
 <img src="gifs/mni_icbm152_gm_tal_nlin_asym_09c_depth.gif">
 
 The image shows you in color what the value of the next slice will be. If the color is slightly red or blue it means that the value on the next slide is brighter or darker, respectifely. It therefore encodes a certain kind of depth into the gif.
-
 
 ### RGB GIF
 
 To create a Red Blue Green (RGB) gif, type the following command in your commandline:
 
-```
+```shell
 gif_your_nifti /path/to/gm.nii /path/to/wm.nii /path/to/csf.nii --mode rgb
 ```
+
 <img src="gifs/mni_icbm152_gm_tal_nlin_asym_09c_rgb.gif">
 
 This image takes the values from the first NIfTI file as its red colors, second NIfTI file as its green colors and third NIfTI as its blue colors.
-
 
 ## Resize GIF
 
 It is also possible to change the size of a gif, by changing the `size` parameter in any function above. The following are examples of resizing the images to 50% of it's original size, with:
 
-
-```
+```shell
 gif_your_nifti /path/to/mni_icbm152_gm_tal_nlin_asym_09c.nii --size 0.5
 gif_your_nifti /path/to/mni_icbm152_gm_tal_nlin_asym_09c.nii --size 0.5 --mode pseudocolor --cmap cubehelix
 gif_your_nifti /path/to/mni_icbm152_gm_tal_nlin_asym_09c.nii --size 0.5 --mode pseudocolor --cmap inferno
