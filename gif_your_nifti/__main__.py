@@ -36,12 +36,18 @@ def main():
         metavar=cfg.cmap, default=cfg.cmap,
         help="Color map. Used only in combination with 'pseudocolor' mode."
         )
+    parser.add_argument(
+        '--frameskip', type=int, required=False,
+        metavar=cfg.frameskip, default=cfg.frameskip,
+        help="Will skip frames if >1 (useful for reducing GIF file size)."
+        )
 
     args = parser.parse_args()
     cfg.mode = (args.mode).lower()
     cfg.size = args.size
     cfg.fps = args.fps
     cfg.cmap = args.cmap
+    cfg.frameskip = args.frameskip
 
     # Welcome message
     welcome_str = '{} {}'.format('gif_your_nifti', __version__)
@@ -52,24 +58,25 @@ def main():
     print('  mode = {}'.format(cfg.mode))
     print('  size = {}'.format(cfg.size))
     print('  fps  = {}'.format(cfg.fps))
+    print('  frameskip  = {}'.format(cfg.frameskip))
 
     # Determine gif creation mode
     if cfg.mode in ['normal', 'pseudocolor', 'depth']:
         for f in args.filename:
             if cfg.mode == 'normal':
-                core.write_gif_normal(f, cfg.size, cfg.fps)
+                core.write_gif_normal(f, cfg.size, cfg.fps, cfg.frameskip)
             elif cfg.mode == 'pseudocolor':
                 print('  cmap = {}'.format(cfg.cmap))
-                core.write_gif_pseudocolor(f, cfg.size, cfg.fps, cfg.cmap)
+                core.write_gif_pseudocolor(f, cfg.size, cfg.fps, cfg.cmap, cfg.frameskip)
             elif cfg.mode == 'depth':
-                core.write_gif_depth(f, cfg.size, cfg.fps)
+                core.write_gif_depth(f, cfg.size, cfg.fps, cfg.frameskip)
 
     elif cfg.mode == 'rgb':
         if len(args.filename) != 3:
             raise ValueError('RGB mode requires 3 input files.')
         else:
             core.write_gif_rgb(args.filename[0], args.filename[1],
-                               args.filename[2], cfg.size, cfg.fps)
+                               args.filename[2], cfg.size, cfg.fps, cfg.frameskip)
     else:
         raise ValueError("Unrecognized mode.")
 

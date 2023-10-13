@@ -74,13 +74,14 @@ def load_and_prepare_image(filename, size=1):
     return out_img, maximum
 
 
-def create_mosaic_normal(out_img, maximum):
+def create_mosaic_normal(out_img, maximum, frameskip):
     """Create grayscale image.
 
     Parameters
     ----------
     out_img: numpy array
     maximum: int
+    frameskip: int
 
     Returns
     -------
@@ -93,12 +94,12 @@ def create_mosaic_normal(out_img, maximum):
                 np.flip(out_img[i, :, :], 1).T,
                 np.flip(out_img[:, maximum - i - 1, :], 1).T)),
             np.flip(out_img[:, :, maximum - i - 1], 1).T))
-         for i in range(maximum)])
+         for i in range(0,maximum,frameskip)])
 
     return new_img
 
 
-def create_mosaic_depth(out_img, maximum):
+def create_mosaic_depth(out_img, maximum, frameskip):
     """Create an image with concurrent slices represented with colors.
 
     The image shows you in color what the value of the next slice will be. If
@@ -110,6 +111,7 @@ def create_mosaic_depth(out_img, maximum):
     ----------
     out_img: numpy array
     maximum: int
+    frameskip: int
 
     Returns
     -------
@@ -117,7 +119,7 @@ def create_mosaic_depth(out_img, maximum):
 
     """
     # Load normal mosaic image
-    new_img = create_mosaic_normal(out_img, maximum)
+    new_img = create_mosaic_normal(out_img, maximum, frameskip)
 
     # Create RGB image (where red and blue mean a positive or negative shift in
     # the direction of the depicted axis)
@@ -133,13 +135,14 @@ def create_mosaic_depth(out_img, maximum):
     return out_img
 
 
-def create_mosaic_RGB(out_img1, out_img2, out_img3, maximum):
+def create_mosaic_RGB(out_img1, out_img2, out_img3, maximum, frameskip):
     """Create RGB image.
 
     Parameters
     ----------
     out_img: numpy array
     maximum: int
+    frameskip: int
 
     Returns
     -------
@@ -147,9 +150,9 @@ def create_mosaic_RGB(out_img1, out_img2, out_img3, maximum):
 
     """
     # Load normal mosaic image
-    new_img1 = create_mosaic_normal(out_img1, maximum)
-    new_img2 = create_mosaic_normal(out_img2, maximum)
-    new_img3 = create_mosaic_normal(out_img3, maximum)
+    new_img1 = create_mosaic_normal(out_img1, maximum, frameskip)
+    new_img2 = create_mosaic_normal(out_img2, maximum, frameskip)
+    new_img3 = create_mosaic_normal(out_img3, maximum, frameskip)
 
     # Create RGB image (where red and blue mean a positive or negative shift
     # in the direction of the depicted axis)
@@ -166,7 +169,7 @@ def create_mosaic_RGB(out_img1, out_img2, out_img3, maximum):
     return out_img
 
 
-def write_gif_normal(filename, size=1, fps=18):
+def write_gif_normal(filename, size=1, fps=18, frameskip=1):
     """Procedure for writing grayscale image.
 
     Parameters
@@ -177,13 +180,15 @@ def write_gif_normal(filename, size=1, fps=18):
         Between 0 and 1.
     fps: int
         Frames per second
+    frameskip: int
+        Will skip frames if >1
 
     """
     # Load NIfTI and put it in right shape
     out_img, maximum = load_and_prepare_image(filename, size)
 
     # Create output mosaic
-    new_img = create_mosaic_normal(out_img, maximum)
+    new_img = create_mosaic_normal(out_img, maximum, frameskip)
 
     # Figure out extension
     ext = '.{}'.format(parse_filename(filename)[2])
@@ -193,7 +198,7 @@ def write_gif_normal(filename, size=1, fps=18):
              format='gif', fps=int(fps * size))
 
 
-def write_gif_depth(filename, size=1, fps=18):
+def write_gif_depth(filename, size=1, fps=18, frameskip=1):
     """Procedure for writing depth image.
 
     The image shows you in color what the value of the next slice will be. If
@@ -209,13 +214,15 @@ def write_gif_depth(filename, size=1, fps=18):
         Between 0 and 1.
     fps: int
         Frames per second
+    frameskip: int
+        Will skip frames if >1
 
     """
     # Load NIfTI and put it in right shape
     out_img, maximum = load_and_prepare_image(filename, size)
 
     # Create output mosaic
-    new_img = create_mosaic_depth(out_img, maximum)
+    new_img = create_mosaic_depth(out_img, maximum, frameskip)
 
     # Figure out extension
     ext = '.{}'.format(parse_filename(filename)[2])
@@ -225,7 +232,7 @@ def write_gif_depth(filename, size=1, fps=18):
              format='gif', fps=int(fps * size))
 
 
-def write_gif_rgb(filename1, filename2, filename3, size=1, fps=18):
+def write_gif_rgb(filename1, filename2, filename3, size=1, fps=18, frameskip=1):
     """Procedure for writing RGB image.
 
     Parameters
@@ -240,6 +247,8 @@ def write_gif_rgb(filename1, filename2, filename3, size=1, fps=18):
         Between 0 and 1.
     fps: int
         Frames per second
+    frameskip: int
+        Will skip frames if >1
 
     """
     # Load NIfTI and put it in right shape
@@ -251,7 +260,7 @@ def write_gif_rgb(filename1, filename2, filename3, size=1, fps=18):
         maximum = maximum1
 
     # Create output mosaic
-    new_img = create_mosaic_RGB(out_img1, out_img2, out_img3, maximum)
+    new_img = create_mosaic_RGB(out_img1, out_img2, out_img3, maximum, frameskip)
 
     # Generate output path
     out_filename = '{}_{}_{}_rgb.gif'.format(parse_filename(filename1)[1],
@@ -263,7 +272,7 @@ def write_gif_rgb(filename1, filename2, filename3, size=1, fps=18):
     mimwrite(out_path, new_img, format='gif', fps=int(fps * size))
 
 
-def write_gif_pseudocolor(filename, size=1, fps=18, colormap='hot'):
+def write_gif_pseudocolor(filename, size=1, fps=18, colormap='hot', frameskip=1):
     """Procedure for writing pseudo color image.
 
     The colormap can be any colormap from matplotlib.
@@ -278,13 +287,15 @@ def write_gif_pseudocolor(filename, size=1, fps=18, colormap='hot'):
         Frames per second
     colormap: str
         Name of the colormap that will be used.
+    frameskip: int
+        Will skip frames if >1
 
     """
     # Load NIfTI and put it in right shape
     out_img, maximum = load_and_prepare_image(filename, size)
 
     # Create output mosaic
-    new_img = create_mosaic_normal(out_img, maximum)
+    new_img = create_mosaic_normal(out_img, maximum, frameskip)
 
     # Transform values according to the color map
     cmap = get_cmap(colormap)

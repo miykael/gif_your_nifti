@@ -2,7 +2,7 @@
 
 from setuptools import setup
 
-VERSION = '0.2.0'
+VERSION = '0.2.1'
 
 setup(name='gif_your_nifti',
       version=VERSION,
