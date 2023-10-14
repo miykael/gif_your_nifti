@@ -4,3 +4,4 @@ mode = 'normal'
 size = 1
 fps = 20
 cmap = 'hot'
+frameskip = 1
