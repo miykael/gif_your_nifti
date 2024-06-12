@@ -69,6 +69,7 @@ def load_and_prepare_image(filename, size=1):
             int(z):c + int(z)] = data
 
     out_img *= 255 / out_img.max()  # scale image values between 0-255
+    out_img = out_img.astype(np.uint8)  # should be uint8 for PIL
 
     # Resize image by the following factor
     if size != 1:
@@ -135,7 +136,7 @@ def create_mosaic_depth(out_img, maximum, frameskip):
 
     # Add the 3 lost images at the end
     out_img = np.vstack(
-        (out_img, np.zeros([3] + [o for o in out_img[-1].shape])))
+        (out_img, np.zeros([3] + [o for o in out_img[-1].shape]))).astype(np.uint8)
 
     return out_img
 
@@ -305,7 +306,7 @@ def write_gif_pseudocolor(filename, size=1, fps=18, colormap='hot', frameskip=1)
     # Transform values according to the color map
     cmap = get_cmap(colormap)
     color_transformed = [cmap(new_img[i, ...]) for i in range(maximum)]
-    cmap_img = np.delete(color_transformed, 3, 3)
+    cmap_img = (255*np.delete(color_transformed, 3, 3)).astype(np.uint8)
 
     # Figure out extension
     ext = '.{}'.format(parse_filename(filename)[2])
