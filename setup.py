@@ -2,7 +2,7 @@
 
 from setuptools import setup
 
-VERSION = '0.2.1'
+VERSION = '0.2.2'
 
 setup(name='gif_your_nifti',
       version=VERSION,
@@ -15,8 +15,9 @@ setup(name='gif_your_nifti',
       install_requires=[
             'numpy',
             'nibabel',
-            'imageio<2.28',  # SEE: https://github.com/miykael/gif_your_nifti/issues/12
-            'matplotlib'
+            'imageio<3',
+            'matplotlib',
+            'scikit-image',
       ],
       keywords=['nifti', 'gif'],
       entry_points={'console_scripts': [

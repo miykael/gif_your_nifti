@@ -1,9 +1,14 @@
 """Core functions."""
 
 import os
+import imageio
 import nibabel as nb
 import numpy as np
-from matplotlib.cm import get_cmap
+try:
+    from matplotlib.cm import get_cmap
+except ImportError:
+    import matplotlib.pyplot as plt
+    get_cmap = plt.get_cmap
 from imageio import mimwrite
 from skimage.transform import resize
 
@@ -63,7 +68,8 @@ def load_and_prepare_image(filename, size=1):
             int(y):b + int(y),
             int(z):c + int(z)] = data
 
-    out_img /= out_img.max()  # scale image values between 0-1
+    out_img *= 255 / out_img.max()  # scale image values between 0-255
+    out_img = out_img.astype(np.uint8)  # should be uint8 for PIL
 
     # Resize image by the following factor
     if size != 1:
@@ -130,7 +136,7 @@ def create_mosaic_depth(out_img, maximum, frameskip):
 
     # Add the 3 lost images at the end
     out_img = np.vstack(
-        (out_img, np.zeros([3] + [o for o in out_img[-1].shape])))
+        (out_img, np.zeros([3] + [o for o in out_img[-1].shape]))).astype(np.uint8)
 
     return out_img
 
@@ -194,7 +200,7 @@ def write_gif_normal(filename, size=1, fps=18, frameskip=1):
     ext = '.{}'.format(parse_filename(filename)[2])
 
     # Write gif file
-    mimwrite(filename.replace(ext, '.gif'), new_img,
+    mimwrite_(filename.replace(ext, '.gif'), new_img,
              format='gif', fps=int(fps * size))
 
 
@@ -228,7 +234,7 @@ def write_gif_depth(filename, size=1, fps=18, frameskip=1):
     ext = '.{}'.format(parse_filename(filename)[2])
 
     # Write gif file
-    mimwrite(filename.replace(ext, '_depth.gif'), new_img,
+    mimwrite_(filename.replace(ext, '_depth.gif'), new_img,
              format='gif', fps=int(fps * size))
 
 
@@ -269,7 +275,7 @@ def write_gif_rgb(filename1, filename2, filename3, size=1, fps=18, frameskip=1):
     out_path = os.path.join(parse_filename(filename1)[0], out_filename)
 
     # Write gif file
-    mimwrite(out_path, new_img, format='gif', fps=int(fps * size))
+    mimwrite_(out_path, new_img, format='gif', fps=int(fps * size))
 
 
 def write_gif_pseudocolor(filename, size=1, fps=18, colormap='hot', frameskip=1):
@@ -300,10 +306,19 @@ def write_gif_pseudocolor(filename, size=1, fps=18, colormap='hot', frameskip=1)
     # Transform values according to the color map
     cmap = get_cmap(colormap)
     color_transformed = [cmap(new_img[i, ...]) for i in range(maximum)]
-    cmap_img = np.delete(color_transformed, 3, 3)
+    cmap_img = (255*np.delete(color_transformed, 3, 3)).astype(np.uint8)
 
     # Figure out extension
     ext = '.{}'.format(parse_filename(filename)[2])
     # Write gif file
-    mimwrite(filename.replace(ext, '_{}.gif'.format(colormap)),
+    mimwrite_(filename.replace(ext, '_{}.gif'.format(colormap)),
              cmap_img, format='gif', fps=int(fps * size))
+
+
+def mimwrite_(filename, img, fps=18, **kwargs):
+    """Helper to provide compatibility with older/newer versions of imageio
+    """
+    if tuple(map(int, imageio.__version__.split('.'))) > (2, 28):
+        return mimwrite(filename, img, duration=int(1000/fps), **kwargs)
+    else:
+        return mimwrite(filename, img, fps=fps, **kwargs)
